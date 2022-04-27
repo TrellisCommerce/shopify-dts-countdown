@@ -6,7 +6,13 @@ Extension of Shopify's Dawn theme countdown.
 With this extension, you can:
 
 - add a Countdown as a section in any page of the site
+
+![On A Mission Skincare 2022-04-27 at 2 26 57 PM](https://user-images.githubusercontent.com/32713913/165585047-8a56f327-c535-4458-8ebf-7975f9616ec9.jpg)
+
 - add a countdown block inside the PDP
+
+![(null) 2022-04-27 at 2 24 48 PM](https://user-images.githubusercontent.com/32713913/165585127-ebfc4740-552b-4bdc-a677-b87c0e9b3ac0.jpg)
+
 
 ## How to Add to Your Theme
 
