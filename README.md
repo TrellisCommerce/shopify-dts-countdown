@@ -298,3 +298,6 @@ With this extension, you can:
 ```
 
 5. Add a new product's metafield called 'global.countdown' of type Date and Time. If the metafield has a value, then the countdown will be displayed on the PDP
+
+![On A Mission Skincare _ Product metafield definitions _ Edit countdown _ Shopify 2022-04-27 at 2 43 42 PM](https://user-images.githubusercontent.com/32713913/165587600-0854f953-b134-412a-849b-480d62f56731.jpg)
+
