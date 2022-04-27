@@ -1,0 +1,128 @@
+{% liquid
+  if type == 'section' 
+    assign main_container_classes = 'twcss-w-screen twcss-flex twcss-justify-center twcss-items-center twcss-flex-col twcss-max-w-full twcss-section-pt twcss-px-[20px] md:twcss-px-[52px] twcss-pb-[40px] twcss-pt-[30px] md:twcss-pt-[85px]' 
+    assign countdown_wrapper_classes = 'twcss-max-w-[280px] md:twcss-max-w-none twcss-flex twcss-align-center twcss-justify-center sm:twcss-justify-between md:twcss-justify-center twcss-flex-wrap' 
+    assign increment_container_classes = 'twcss-border-[3px] twcss-mb-[55px] md:twcss-mb-0 twcss-min-w-[126px] twcss-min-h-[126px] twcss-px-[18px] twcss-pt-[25px] twcss-pb-[20px] md:twcss-mr-[39px] twcss-relative twcss-opacity-0' 
+    assign increment_text_classes = 'twcss-text-[70px] md:twcss-text-[75px] twcss-leading-none twcss-text-right' 
+    assign increment_label_classes = 'twcss-body20 twcss-pt-[10px] twcss-absolute -twcss-translate-x-1/2 twcss-left-1/2 twcss-bottom-[-43px]' 
+    assign custom_padding = 'padding-top:{{ data.padding_top }}px;padding-bottom:{{ data.padding_bottom }}px'
+    assign countdown_style = ''
+  elsif type == 'block' 
+    assign main_container_classes = 'countdown-pdp-block' 
+    assign countdown_wrapper_classes = 'twcss-flex' 
+    assign increment_container_classes = 'twcss-flex' 
+    assign increment_text_classes = '' 
+    assign increment_label_classes = '' 
+    assign custom_padding = ''
+    assign countdown_style = 'twcss-px-[10px] twcss-py-[5px] twcss-justify-center'
+    if data.countdown_style == 'text'
+      assign countdown_style = ''
+    endif
+  endif 
+
+  if data.date
+    assign date = data.date
+  endif
+%}
+
+<div class="{{ main_container_classes }}" id="countdown-content" style="background-color: {{ data.bkg_color }};{{ custom_padding }}">
+  {% if type == 'section' %}
+    {% if data.title != blank %}
+      <h2 class="twcss-text-center twcss-text-[65px] md:twcss-text-[75px] twcss-leading-0 twcss-pb-[30px]" style="color: {{ data.content_color }}">
+        {{ data.title }}
+      </h2>
+    {% endif %}  
+    {% if data.description != blank %}
+      <div class="twcss-text-center twcss-pb-[30px] twcss-mx-auto twcss-max-w-screen-xlg md:twcss-px-[10%]" style="color: {{ data.content_color }}">
+        {{ data.description }}
+      </div>
+    {% endif %}
+  {% endif %}
+
+    <div id="countdown-wrapper" class="{{ countdown_wrapper_classes }} {{ countdown_style }}">
+        {% if type == 'block' %}
+          <span style="color: {{ data.content_color }};">
+            {{ data.title }}&nbsp;
+          </span>
+        {% endif %}
+        <div id="days" class="{{ increment_container_classes }} {% unless data.show_days %}twcss-hidden{% endunless %}" style="border-color:{{ data.content_color }}">
+          <p class="{{ increment_text_classes }}" style="color: {{ data.content_color }}"></p>
+          <span class="{{ increment_label_classes }}" style="color: {{ data.content_color }}">
+            {% if type == 'section' %}Days{% else %}&nbsp;Days&nbsp;{% endif %}
+            </span>
+        </div>
+        <div id="hours" class="{{ increment_container_classes }} {% unless data.show_hours %}twcss-hidden{% endunless %}" style="border-color:{{ data.content_color }}">
+          <p class="{{ increment_text_classes }}" style="color: {{ data.content_color }}"></p>
+          <span class="{{ increment_label_classes }}" style="color: {{ data.content_color }}">
+            {% if type == 'section' %}Hours{% else %}:{% endif %}
+          </span>
+        </div>          
+        <div id="minutes" class="{{ increment_container_classes }} {% unless data.show_minutes %}twcss-hidden{% endunless %}" style="border-color:{{ data.content_color }}">
+          <p class="{{ increment_text_classes }}" style="color: {{ data.content_color }}"></p>
+          <span class="{{ increment_label_classes }}" style="color: {{ data.content_color }}">
+            {% if type == 'section' %}Minutes{% else %}:{% endif %}
+          </span>
+        </div>
+        <div id="seconds" class="{{ increment_container_classes }} {% unless data.show_seconds %}twcss-hidden{% endunless %}" style="border-color:{{ data.content_color }}">
+          <p class="{{ increment_text_classes }}" style="color: {{ data.content_color }}"></p>
+          <span class="{{ increment_label_classes }}" style="color: {{ data.content_color }}">
+            {% if type == 'section' %}Seconds{% endif %}
+          </span>
+        </div>
+    </div>
+</div>
+
+<script>
+
+  // Set the date we're counting down to
+  var countDownDate = new Date("{{ date }}").getTime();
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+  const countDownElement = document.getElementById("countdown-content")
+
+  function hideCounter(){
+    if(countDownElement.classList.contains('countdown-pdp-block')){
+      document.getElementById("countdown-content").classList.add('twcss-hidden');
+    }else{
+      document.getElementById("countdown-wrapper").innerHTML = '<div class="twcss-h4">{{ data.expired_text }}</div>';
+    }
+  }
+
+  if (distance < 0) {
+
+    hideCounter();
+    
+  } else {
+
+    document.getElementById("days").classList.remove('twcss-opacity-0');
+    document.getElementById("hours").classList.remove('twcss-opacity-0');
+    document.getElementById("minutes").classList.remove('twcss-opacity-0');
+    document.getElementById("seconds").classList.remove('twcss-opacity-0');
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+      
+      var now = new Date().getTime();
+      var distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Display the result in the elements
+      document.querySelector("#days p").innerHTML = days.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});  
+      document.querySelector("#hours p").innerHTML = hours.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+      document.querySelector("#minutes p").innerHTML = minutes.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+      document.querySelector("#seconds p").innerHTML = seconds.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
+
+      // If the count down is finished, write some text
+      if (distance < 0) {
+        clearInterval(x);
+        hideCounter();
+      }
+    }, 1000);
+
+  }
+</script>

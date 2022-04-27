@@ -1,0 +1,96 @@
+{% render 'countdown-trellis', data: section.settings, type: 'section' %}
+
+{% schema %}
+{
+  "name": "Countdown",
+  "class": "countdown",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "bkg_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "color",
+      "id": "content_color",
+      "label": "Content Color",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Trellis Countdown"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed convallis tristique sem.  Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>"
+    },
+    {
+      "type": "text",
+      "id": "date",
+      "label": "Countdown to",
+      "info": "Use the following format: MM/dd/YYYY"
+    },
+    {
+      "type": "richtext",
+      "id": "expired_text",
+      "label": "Text to display when the countdown finishes.",
+      "default": "<p>Countdown Finished!</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_days",
+      "label": "Show Days",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_hours",
+      "label": "Show Hours",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_minutes",
+      "label": "Show Minutes",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_seconds",
+      "label": "Show Seconds",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "CountDown"
+    }
+  ]
+}
+{% endschema %}
