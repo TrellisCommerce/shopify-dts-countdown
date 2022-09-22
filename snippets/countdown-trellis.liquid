@@ -18,7 +18,7 @@
   endif
 %}
 
-<div class="{{ main_container_classes }}" style="background-color: {{ data.bkg_color }}">
+<div class="{{ main_container_classes }}" style="background-color: {{ data.bkg_color }} ">
   {% if type == 'section' %}
     {% if data.title != blank %}
       <h2 class="twcss-text-center twcss-text-[65px] md:twcss-text-[75px] twcss-leading-0 twcss-pb-[30px]" style="color: {{ data.content_color }}">
@@ -32,7 +32,7 @@
     {% endif %}
   {% endif %}
 
-    <div id="countdown-wrapper" class="{{ countdown_wrapper_classes }}">
+    <div id="countdown-wrapper-{{ identifier | split: ' ' | join: '' }}" class="{{ countdown_wrapper_classes }}">
         {% if type == 'block' %}
           <span style="color: {{ data.content_color }}; ">
             ON SALE for&nbsp;
@@ -75,12 +75,12 @@ function runme() {
   // Set the date we're counting down to
   const countDownDate = new Date("{{ date }}").getTime();
   const now = new Date().getTime();
-  const distance = countDownDate - now;
   const temp = "{{ identifier | split: ' ' | join: '' }}"
+  const distance = countDownDate - now
 
   if (distance < 0) {
 
-    document.getElementById("countdown-wrapper").innerHTML = '<div class="twcss-h4">{{ data.expired_text }}</div>';
+    document.getElementById(`countdown-wrapper-${temp}`).innerHTML = '<div class="twcss-h4" style="color:{{ data.countdown_content_color }}">{{ data.expired_text }}</div>';
 
   } else {
 
@@ -92,14 +92,12 @@ function runme() {
     // Update the count down every 1 second
     var x = setInterval(function() {
 
-      const now = new Date().getTime();
-      const distance = countDownDate - now;
-
       // Time calculations for days, hours, minutes and seconds
       const days = (`${temp}-days`, Math.floor(distance / (1000 * 60 * 60 * 24)))
       const hours = (`${temp}-hours`, Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
       const minutes = (`${temp}-minutes`, Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)))
       const seconds = (`${temp}-seconds`, Math.floor((distance % (1000 * 60)) / 1000))
+
 
       // Display the result in the elements
       document.querySelector(`#days-${temp} p`).innerHTML = days.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
@@ -110,7 +108,7 @@ function runme() {
       // If the count down is finished, write some text
       if (distance < 0) {
         clearInterval(x);
-        document.getElementById("countdown-wrapper").innerHTML = '<div class="twcss-h4">{{ data.expired_text }}</div>';
+        document.getElementById(`countdown-wrapper-${temp}`).innerHTML = '<div class="twcss-h4" style="color:{{ data.countdown_content_color }}" >{{ data.expired_text }}</div>';
       }
     }, 1000);
 
