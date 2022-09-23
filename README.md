@@ -13,7 +13,6 @@ With this extension, you can:
 
 ![(null) 2022-04-27 at 2 24 48 PM](https://user-images.githubusercontent.com/32713913/165585127-ebfc4740-552b-4bdc-a677-b87c0e9b3ac0.jpg)
 
-
 ## How to Add to Your Theme
 
 1. Add an `countdown-trellis.liquid` file to the `sections` directory and copy in the file's code from this repo.
@@ -301,3 +300,109 @@ With this extension, you can:
 
 ![On A Mission Skincare _ Product metafield definitions _ Edit countdown _ Shopify 2022-04-27 at 2 43 42 PM](https://user-images.githubusercontent.com/32713913/165587600-0854f953-b134-412a-849b-480d62f56731.jpg)
 
+## How to add multiple countdown timers on your Product Listing Page
+
+1. If you have not already done so, please follow steps 1 to 3 from "How to add to your theme".
+
+2. After adding the neccessary files, in sections > main-collection-product-grid.liquid, add the following code as a new "block" in the schema:
+
+```
+  {
+        "type": "countdown",
+        "name": "Countdown",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "select",
+            "id": "countdown_style",
+            "options": [
+              {
+                "value": "banner",
+                "label": "Banner"
+              },
+              {
+                "value": "text",
+                "label": "Text"
+              }
+            ],
+            "default": "banner",
+            "label": "CountDown Style"
+          },
+          {
+            "type": "color",
+            "id": "bkg_color",
+            "label": "Background Color",
+            "default": "transparent"
+          },
+          {
+            "type": "color",
+            "id": "content_color",
+            "label": "Content Color",
+            "default": "#000000"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "ON SALE for"
+          },
+          {
+            "type": "richtext",
+            "id": "expired_text",
+            "label": "Text to display when the countdown finishes.",
+            "default": "<p>Countdown Finished!</p>"
+          },
+          {
+            "type": "color",
+            "id": "countdown_content_color",
+            "label": "Countdown Text Color",
+            "default": "#000000"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_days",
+            "label": "Show Days",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_hours",
+            "label": "Show Hours",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_minutes",
+            "label": "Show Minutes",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "show_seconds",
+            "label": "Show Seconds",
+            "default": true
+          }
+        ]
+      }
+```
+
+3.  In sections > main-collection-product-grid.liquid, paste the following code within the grid.
+
+```
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'countdown' -%}
+        {% liquid
+          if product.metafields.global.countdown
+            render 'countdown-trellis',
+              data: block.settings,
+              date: product.metafields.global.countdown,
+              identifier: product.title,
+              type: 'block'
+          endif
+        %}
+    {%- endcase -%}
+  {%- endfor -%}
+```
+
+4. Add a new product's metafield called 'global.countdown' of type Date and Time to each of the individual products you'd like a countdown timer displayed. If the product's metafield has a value, then the countdown will be displayed for each product on the PLP.
